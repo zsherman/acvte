@@ -1,0 +1,57 @@
+<%= form_for @post do |f| %>
+<div id="hide"><a id = "hide_link" href = "#">Hide</a></div>
+<div id = "outline_container">  
+  <div class = "outline">
+	<%= f.text_area :outline, :rows => 10, :placeholder => 'Outline Here'%>
+  </div>
+  <div class = "outline">
+	<%= f.text_area :links, :rows => 10, :placeholder => 'Links Here'%>
+  </div>
+</div>
+  <div class="contain">
+    <%- if @post.errors.any? -%>
+    <div class="notice">
+      <%- @post.errors.full_messages.each do |msg| -%>
+        <%= msg %>
+      <%- end -%>
+    </div>
+    <%- end -%>
+    <div id="text-title" class="expandingArea">
+      <pre><span></span><br></pre>
+      <%= f.text_area :title, :rows => 1, :placeholder => 'Title here' %>
+	  <%= link_to '⚓', @post, :class => 'permalink', :target => '_blank' if @post.slug %>
+    </div>
+
+    <fieldset class="markdown">
+      <div id="text-content" class="expandingArea">
+        <pre><span></span><br></pre>
+        <%= f.text_area :content, :placeholder => 'Write post here' %>
+      </div>
+    </fieldset>
+  </div>
+  <div id="publish-bar">
+    <div class="contain">
+      <div class="left">
+        <a href="/admin">&laquo; Admin</a>
+        <%= link_to 'Delete', @post, :confirm => 'Are you sure?', :method => :delete, :class => 'delete-bar' %>
+        <%= link_to 'Options', '#options', :class => 'menu' %>
+        <ul id="options" class="sub-menu">
+          <li>
+            <%= f.label :url, 'Slug' %>
+            <%= f.text_field :slug, :placeholder => 'Leave blank to automatically generate' %>
+          </li>
+          <li>
+            <%= f.label :url, 'URL' %>
+            <%= f.text_field :url, :placeholder => 'Optional external link' %>
+          </li>
+        </ul>
+      </div>
+      <div class="right">
+        <%= f.label :draft %>
+        <%= f.check_box :draft %>
+        <%= f.submit 'Preview', :id => 'preview-button', :preview => true, :target => "_blank" %>
+        <%= f.submit 'Save', :id => 'save-button' %>
+      </div>
+    </div>
+  </div>
+<% end %>
